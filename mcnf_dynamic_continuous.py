@@ -7,6 +7,40 @@ import gurobipy
 from k_shortest_path import k_shortest_path_all_destination
 
 
+def dijkstra(graph, initial_node, destination_node=None, return_path=False):
+    priority_q = [(0, initial_node, None)]
+    parent_list = [None] * len(graph)
+    distances = [None] * len(graph)
+
+    while priority_q:
+        value, current_node, parent_node = hp.heappop(priority_q)
+        if distances[current_node] is None:
+            parent_list[current_node] = parent_node
+            distances[current_node] = value
+
+            if current_node == destination_node:
+                break
+
+            for neighbor in graph[current_node]:
+                if distances[neighbor] is None:
+                    hp.heappush(priority_q, (value + graph[current_node][neighbor], neighbor, current_node))
+
+    if return_path and destination_node is not None:
+        path = [destination_node]
+        path_cost = 0
+        current_node = destination_node
+
+        while current_node != initial_node:
+            path_cost += graph[parent_list[current_node]][current_node]
+            current_node = parent_list[current_node]
+            path.append(current_node)
+
+        path.reverse()
+        return path, path_cost
+
+    return parent_list, distances
+
+
 def compute_all_shortest_path(graph, origin_list):
     nb_nodes = len(graph)
     all_shortest_path = {}
@@ -23,6 +57,14 @@ def compute_all_shortest_path(graph, origin_list):
         all_shortest_path[origin] = [(shortest_path_list[node], distances[node]) for node in range(nb_nodes)]
 
     return all_shortest_path
+
+
+def compute_shortest_path(shortest_path_list, parent_list, node):
+    parent = parent_list[node]
+    if shortest_path_list[parent] is None:
+        compute_shortest_path(shortest_path_list, parent_list, parent)
+
+    shortest_path_list[node] = shortest_path_list[parent] + [node]
 
 
 def is_correct_path(graph, commodity, path_tuple):

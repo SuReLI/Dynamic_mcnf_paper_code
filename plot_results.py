@@ -61,7 +61,7 @@ def plot_dataset(global_path, dataset_name, algorithm_list=None, x_label="Nb nod
     # This function reads the results of a dataset, aggregates the results of instances with the same parameters and calls the plotting function
 
     # Opening the result file
-    result_file = open(global_path + "/MCNF_solver/instance_files_dynamic/" + dataset_name + "/result_file.p", "rb" )
+    result_file = open(global_path + "/Dynamic_mcnf_paper_code/instance_files_dynamic/" + dataset_name + "/result_file.p", "rb" )
     result_dict = pickle.load(result_file)
     result_file.close()
 
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     # dataset_name = "graph_scaling_dataset_hard"
     # dataset_name = "graph_scaling_dataset_random"
     # dataset_name = "commodity_scaling_dataset"
-y
+
     algorithm_list = []
     algorithm_list.append("SRR arc node")
     algorithm_list.append("SRR arc path")

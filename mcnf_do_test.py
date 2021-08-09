@@ -4,7 +4,7 @@ import time
 from mcnf_dynamic import *
 from instance_mcnf import generate_instance, mutate_instance
 from k_shortest_path import k_shortest_path_all_destination
-from launch_dataset_test_dynamic_2 import analyse_results_list
+from launch_dataset_dynamic import analyse_results_list
 
 
 def update_graph_capacity(graph, path, demand, reverse_graph=False):
@@ -34,7 +34,7 @@ temp = time.time()
 # size = 5
 # graph_type, graph_generator_inputs, demand_generator_inputs = "grid", (size, size, size, 2*size, 15000, 10000), {"smaller_commodities" : True}
 # graph_type, graph_generator_inputs, demand_generator_inputs = "grid", (size, size, size, 2*size, 10000, 10000), {}
-size = 200
+size = 30
 graph_type, graph_generator_inputs, demand_generator_inputs = "random_connected", (size, 5/size, int(size * 0.1), 10000), {}
 graph, commodity_list, initial_path_list, origin_list = generate_instance(graph_type, graph_generator_inputs, demand_generator_inputs)
 
@@ -71,34 +71,34 @@ print("mininmum_number_of_path_changes = ", mininmum_number_of_path_changes)
 
 # Choice of the tested algorithms
 algorithm_list = []
-# tested_algorithms.append("SRR arc node")
-# tested_algorithms.append("SRR arc path")
-# tested_algorithms.append("SRR arc node no penalization")
-# tested_algorithms.append("SRR arc path no penalization")
-# tested_algorithms.append("SRR restricted")
-# tested_algorithms.append("SRR restricted multi-time-step")
-tested_algorithms.append("B&B restricted short")
-# tested_algorithms.append("B&B restricted medium")
-# tested_algorithms.append("B&B restricted long")
-# tested_algorithms.append("Partial B&B restricted")
-# tested_algorithms.append("SRR path-combination")
-# tested_algorithms.append("SRR path-combination no penalization")
-# tested_algorithms.append("SRR path-combination restricted")
-# tested_algorithms.append("SRR path-combination commodity")
-# tested_algorithms.append("SRR path-combination timestep")
+algorithm_list.append("SRR arc node")
+algorithm_list.append("SRR arc path")
+# algorithm_list.append("SRR arc node no penalization")
+# algorithm_list.append("SRR arc path no penalization")
+# algorithm_list.append("SRR restricted")
+# algorithm_list.append("SRR restricted multi-time-step")
+algorithm_list.append("B&B restricted short")
+# algorithm_list.append("B&B restricted medium")
+# algorithm_list.append("B&B restricted long")
+# algorithm_list.append("Partial B&B restricted")
+algorithm_list.append("SRR path-combination")
+# algorithm_list.append("SRR path-combination no penalization")
+# algorithm_list.append("SRR path-combination restricted")
+# algorithm_list.append("SRR path-combination commodity")
+# algorithm_list.append("SRR path-combination timestep")
 
 # Launch the chosen algorithm
 for algorithm_name in algorithm_list:
-    if algorithm_name == "SRR arc node" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_node_one_timestep, verbose=0)
-    if algorithm_name == "SRR arc path" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, verbose=0)
-    if algorithm_name == "SRR arc node no penalization" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_node_one_timestep, solver_keyword_arguments={"flow_penalisation" : 0}, verbose=0)
-    if algorithm_name == "SRR arc path no penalization" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, solver_keyword_arguments={"flow_penalisation" : 0}, verbose=0)
-    if algorithm_name == "SRR restricted" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, solver_keyword_arguments={"nb_path_generations" : 0}, verbose=0)
-    if algorithm_name == "SRR restricted multi-time-step" : results_list = SRR_arc_path2(instance_list, initial_path_list, verbose=0)
-    if algorithm_name == "B&B restricted short" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 50, "nb_threads" : 1}, verbose=0)
-    if algorithm_name == "B&B restricted medium" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 10, "nb_threads" : 1}, verbose=0)
-    if algorithm_name == "B&B restricted long" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 2, "nb_threads" : 1}, verbose=0)
-    if algorithm_name == "Partial B&B restricted" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"nb_new_binary_var" : 1 + nb_commodities // 10, "time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 40, "nb_threads" : 1}, verbose=0)
+    if algorithm_name == "SRR arc node" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_node_one_timestep, verbose=1)
+    if algorithm_name == "SRR arc path" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, verbose=1)
+    if algorithm_name == "SRR arc node no penalization" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_node_one_timestep, solver_keyword_arguments={"flow_penalisation" : 0}, verbose=1)
+    if algorithm_name == "SRR arc path no penalization" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, solver_keyword_arguments={"flow_penalisation" : 0}, verbose=1)
+    if algorithm_name == "SRR restricted" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, SRR_arc_path_one_timestep, solver_keyword_arguments={"nb_path_generations" : 0}, verbose=1)
+    if algorithm_name == "SRR restricted multi-time-step" : results_list = SRR_arc_path2(instance_list, initial_path_list, verbose=1)
+    if algorithm_name == "B&B restricted short" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 50, "nb_threads" : 1}, verbose=1)
+    if algorithm_name == "B&B restricted medium" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 10, "nb_threads" : 1}, verbose=1)
+    if algorithm_name == "B&B restricted long" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 2, "nb_threads" : 1}, verbose=1)
+    if algorithm_name == "Partial B&B restricted" : results_list = iterate_one_timestep_solver(instance_list, initial_path_list, Branch_and_Bound_arc_path_one_timestep, solver_keyword_arguments={"nb_new_binary_var" : 1 + nb_commodities // 10, "time_limit" : 1.7 ** (np.sqrt(nb_nodes)) / 40, "nb_threads" : 1}, verbose=1)
     if algorithm_name == "SRR path-combination" : results_list = SRR_path_combinations(instance_list, initial_path_list)
     if algorithm_name == "SRR path-combination no penalization" : results_list = SRR_path_combinations(instance_list, initial_path_list, flow_penalisation=0)
     if algorithm_name == "SRR path-combination restricted" : results_list = SRR_path_combinations(instance_list, initial_path_list, exact_var_generation=False)
@@ -131,7 +131,7 @@ for timestep, commodity_path_list_2 in enumerate(results_list):
 
     overload_graph = [{neighbor : max(0, use_graph[node][neighbor] - graph[node][neighbor]) for neighbor in graph[node]} for node in range(len(graph))]
     overload = sum([sum(dct.values()) for dct in overload_graph])
-    total_overload += max(0, overload - allowed_overflow)mmodities = ", nb_path_changes)
+    total_overload += max(0, overload - allowed_overflow)
     print("overload = ", overload)
     total_change += nb_path_changes
 
