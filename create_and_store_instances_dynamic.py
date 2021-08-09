@@ -5,7 +5,6 @@ import pickle
 
 
 from instance_mcnf import generate_instance, mutate_instance
-from mcnf import randomized_rounding_heuristic
 
 
 nb_repetitions = 10
@@ -59,7 +58,7 @@ for graph_type, graph_generator_inputs, demand_generator_inputs in instance_para
 
         instance_list = []
 
-        # Generating subsquent timesteps and applying the randomized_rounding_heuristic to each timestep
+        # Generating subsquent timesteps
         for timestep in range(nb_timesteps + 1):
             graph_copy = [{neighbor : graph[node][neighbor] for neighbor in graph[node]} for node in range(len(graph))]
             commodity_list_copy = [c for c in commodity_list]

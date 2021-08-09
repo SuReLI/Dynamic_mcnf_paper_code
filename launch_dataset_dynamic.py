@@ -160,8 +160,8 @@ def analyse_results_list(instance_list, initial_path_list, results_list):
 if __name__ == "__main__":
     # Set the path to the global directory
     # global_path = "/home/disc/f.lamothe"
-    # global_path = "/home/francois/Desktop"
-    assert False, "Unassigned global_path : Complete global_path with the path to the main directory"
+    global_path = "/home/francois/Desktop"
+    # assert False, "Unassigned global_path : Complete global_path with the path to the main directory"
 
     # Set the number of repetition
     nb_repetitions = 1
