@@ -69,6 +69,7 @@ def compute_shortest_path(shortest_path_list, parent_list, node):
 
 def is_correct_path(graph, commodity, path_tuple):
     # function that checks if a path_tuple is valid for a commodity in an instance
+    if len(path_tuple) < 2: return False
 
     origin, destination, demand = commodity
     is_correct =  path_tuple[0] == origin and path_tuple[-1] == destination
